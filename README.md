@@ -16,6 +16,7 @@
 - 無人機使用H420軸之Pixhawk 6C飛控小型無人機。包含F9P GPS、數傳模組以及電池。
 - 無人機上安裝Jeston Orin NX，用於處理圖像、物件檢測和控制算法等，並安裝攝影機獲取影像資訊。
 - 無人地面載具(UGV)速度設為0.2m/s。
+- H降落平台大小為60cmx60cm，ArUco marker為6cm*6cm。
 
 實驗場景示意圖：
 
@@ -60,5 +61,37 @@
 - 第三階段：模糊自適應 P 降落控制器，偵測不到 ArUco marker 時無人機上升，僅控制 (x, y) 方向速度，z 軸保持等速下降，當 ArUco marker 大小與位置符合降落條件時，啟動姿態與推力控制完成降落。
   
 ## 3. 視覺偵測
-## 4. 控制器設計
+
+PD追蹤控制模組中的目標檢測方法：
+
+![image](https://github.com/Slaung/UAV-Autonomously-Tracking-Landing-on-UGV/blob/main/Figure/Figure7.png)
+
+- 使用YOLOv4-tiny檢測架構，將其實現在Jetson Orin NX上，並使用GPU加速推論，FPS達20左右。
+
+PD追蹤控制模組中的高度預測方法：
+
+![image](https://github.com/Slaung/UAV-Autonomously-Tracking-Landing-on-UGV/blob/main/Figure/Figure8.png)
+
+- 所設計之FNN高度預測器，輸入為YOLOv4-tiny所檢測到H降落平台之pixel大小，輸出為所對應到無人機與H降落平台之間高度。
+
+模糊自適應 P 降落控制器中的ArUco marker檢測方法：
+
+![image](https://github.com/Slaung/UAV-Autonomously-Tracking-Landing-on-UGV/blob/main/Figure/Figure9.png)
+
+- 使用ArUco marker檢測算法，以檢測小型ArUco marker。
+
+無人機的不同偏航角度範圍定義圖：
+
+![image](https://github.com/Slaung/UAV-Autonomously-Tracking-Landing-on-UGV/blob/main/Figure/Figure10.png)
+
+- 當偏航角度範圍較大時，無人機可以快速旋轉；隨著偏航角接近 0°（朝北方），需要逐漸減速來抵消慣性。
+- 當偏航角進入 Range1 區域時，應將偏航角速度降至零，使無人機穩定面向 0° 方位。
+
+偏航校正控制器之流程圖：
+
+![image](https://github.com/Slaung/UAV-Autonomously-Tracking-Landing-on-UGV/blob/main/Figure/Figure11.png)
+
+- 根據無人機的不同偏航角度範圍定義來設計偏航角速度。
+
+## 4. 控制器設計 here
 ## 5. 真實硬體飛行結果(成功、失敗、統計成功失敗次數)
