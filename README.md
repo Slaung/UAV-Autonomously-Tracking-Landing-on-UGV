@@ -5,7 +5,7 @@
 - 系統架構
 - 視覺偵測
 - 控制器設計
-- 真實硬體飛行結果(成功、失敗、統計成功失敗次數)
+- 真實硬體飛行結果
 
 ## 1. 實驗平台
 
@@ -118,7 +118,6 @@ Y 軸速度之模糊自適應 P 控制器之隸屬函數設計：
 ![image](https://github.com/Slaung/UAV-Autonomously-Tracking-Landing-on-UGV/blob/main/Figure/Figure20.png)
 
 - 而𝑒𝑝𝑜𝑠_𝑦範圍定義在-240~240之間、𝑑𝑒𝑝𝑜𝑠_𝑦範圍定義在-60~60之間。𝐾𝑓𝑝_𝑦(輸出)範圍定義在-0.003~0.003 之間。
-
   
 X 軸速度之模糊自適應 P 控制器之模糊規則表：
 
@@ -132,4 +131,36 @@ Y 軸速度之模糊自適應 P 控制器之模糊規則表：
 
 - 對於 y 軸之速度控制，只需穩定攝影機中心點保持在 ArUco marker 中心點上，若 Y 軸位置誤差𝑒𝑝𝑜𝑠_𝑦較大，且 Y 軸之位置誤差變化量𝑑𝑒𝑝𝑜𝑠_𝑦較大時，例如𝑒𝑝𝑜𝑠_𝑦為 NB 且𝑑𝑒𝑝𝑜𝑠_𝑦為 NB 時，會給予較大的反饋速度 NB，快速將無人機拉回至 ArUco marker 中心點位置。
   
-## 5. 真實硬體飛行結果(成功、失敗、統計成功失敗次數)
+## 5. 真實硬體飛行結果
+
+起飛至 3 公尺高：
+
+![image](https://github.com/Slaung/UAV-Autonomously-Tracking-Landing-on-UGV/blob/main/Figure/Figure16-a.png)
+
+偏航校正控制：
+
+![image](https://github.com/Slaung/UAV-Autonomously-Tracking-Landing-on-UGV/blob/main/Figure/Figure16-b.png)
+
+PD 追蹤控制器：
+
+![image](https://github.com/Slaung/UAV-Autonomously-Tracking-Landing-on-UGV/blob/main/Figure/Figure16-c.png)
+
+模糊自適應 P 降落控制器：
+
+![image](https://github.com/Slaung/UAV-Autonomously-Tracking-Landing-on-UGV/blob/main/Figure/Figure16-d.png)
+
+無法檢測到 ArUco marker，啟動爬升機制：
+
+![image](https://github.com/Slaung/UAV-Autonomously-Tracking-Landing-on-UGV/blob/main/Figure/Figure16-e.png)
+
+爬升至重新檢測到 ArUco marker 時，快速拉回至上方：
+
+![image](https://github.com/Slaung/UAV-Autonomously-Tracking-Landing-on-UGV/blob/main/Figure/Figure16-f.png)
+
+繼續進行模糊自適應 P 降落控制器：
+
+![image](https://github.com/Slaung/UAV-Autonomously-Tracking-Landing-on-UGV/blob/main/Figure/Figure16-g.png)
+
+推力與姿態控制之降落控制，完成降落：
+
+![image](https://github.com/Slaung/UAV-Autonomously-Tracking-Landing-on-UGV/blob/main/Figure/Figure16-h.png)
