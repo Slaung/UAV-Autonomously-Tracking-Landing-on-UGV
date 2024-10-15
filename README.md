@@ -94,4 +94,29 @@ PD追蹤控制模組中的高度預測方法：
 - 根據無人機的不同偏航角度範圍定義來設計偏航角速度。
 
 ## 4. 控制器設計 here
+
+PD追蹤控制器架構圖：
+
+![image](https://github.com/Slaung/UAV-Autonomously-Tracking-Landing-on-UGV/blob/main/Figure/Figure12.png)
+
+- 包含ROS、YOLOv4-tiny和FNN模型之整合，以控制無人機X, Y, Z軸速度控制進行追蹤。
+
+模糊自適應P降落控制器架構圖：
+
+![image](https://github.com/Slaung/UAV-Autonomously-Tracking-Landing-on-UGV/blob/main/Figure/Figure13.png)
+
+- 包含ROS和ArUco marker整合，以控制無人機X, Y軸速度控制進行降落，Z軸速度為等速下降。
+
+X 軸速度之模糊自適應 P 控制器之模糊規則表：
+
+![image](https://github.com/Slaung/UAV-Autonomously-Tracking-Landing-on-UGV/blob/main/Figure/Figure17.png)
+
+- 由於UGV是以單方向移動(西方)，因此，在設計 X 軸速度之模糊自適應 P 控制器的模糊輸出時，必須讓UAV保持與UGV相同速度以維持跟隨，而當UAV超過UGV時，例如𝑒𝑝𝑜𝑠_𝑥為 PB 以及𝑑𝑒𝑝𝑜𝑠_𝑥為 PB 時，此時僅給予小幅地速度，即 PS，使無人機小幅度地往車子行走反方向進行修正。
+
+Y 軸速度之模糊自適應 P 控制器之模糊規則表：
+
+![image](https://github.com/Slaung/UAV-Autonomously-Tracking-Landing-on-UGV/blob/main/Figure/Figure18.png)
+
+- 對於 y 軸之速度控制，只需穩定攝影機中心點保持在 ArUco marker 中心點上，若 Y 軸位置誤差𝑒𝑝𝑜𝑠_𝑦較大，且 Y 軸之位置誤差變化量𝑑𝑒𝑝𝑜𝑠_𝑦較大時，例如𝑒𝑝𝑜𝑠_𝑦為 NB 且𝑑𝑒𝑝𝑜𝑠_𝑦為 NB 時，會給予較大的反饋速度 NB，快速將無人機拉回至 ArUco marker 中心點位置。
+  
 ## 5. 真實硬體飛行結果(成功、失敗、統計成功失敗次數)
